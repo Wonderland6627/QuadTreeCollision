@@ -20,9 +20,15 @@ namespace Wonderland6627
             width = _width;
         }
 
+        public bool IsInRange(Vector3 pos)
+        {
+            bool result = pos.x > originX && pos.x < originX + width && pos.z > originZ && pos.z < originZ + width;
+
+            return result;
+        }
+
         public void Visualize(Material mat = null)
         {
-
             GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
             cube.transform.position = new Vector3(originX + width / 2, QuadTreeWorld.Instance.TreeLeavesCount, originZ + width / 2);
             cube.transform.localScale = new Vector3(width, 1, width);
@@ -45,6 +51,8 @@ namespace Wonderland6627
         public QuadTree subQuadTree3;
         public QuadTree subQuadTree4;
 
+        public List<QuadTree> subQuadTrees = new List<QuadTree>();
+
         public bool isDivided = false;
 
         public QuadTree() { }
@@ -56,7 +64,33 @@ namespace Wonderland6627
         }
 
         /// <summary>
-        /// 细分
+        /// 插入
+        /// </summary>
+        public bool Insert(Vector3 pos)
+        {
+            if (!rect.IsInRange(pos))
+            {
+                return false;
+            }
+
+            if (!isDivided)
+            {
+                Divid();
+            }
+
+            for (int i = 0; i < subQuadTrees.Count; i++)
+            {
+                if (subQuadTrees[i].Insert(pos))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 分割
         /// </summary>
         public void Divid()
         {
@@ -75,6 +109,11 @@ namespace Wonderland6627
 
             Rect rect4 = new Rect(originX + width / 2, originZ, width / 2);
             subQuadTree4 = new QuadTree(rect4);
+
+            subQuadTrees.Add(subQuadTree1);
+            subQuadTrees.Add(subQuadTree2);
+            subQuadTrees.Add(subQuadTree3);
+            subQuadTrees.Add(subQuadTree4);
 
             isDivided = true;
         }
