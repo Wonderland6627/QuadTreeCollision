@@ -30,6 +30,7 @@ public class QuadTreeTest : MonoBehaviour
         rootTree.Divid();
         CreateQuadTree(rootTree);
         ShowQuadTree(rootTree);
+        AnalysisQuadTree(rootTree);
     }
 
     private Material RandMat()
@@ -54,14 +55,6 @@ public class QuadTreeTest : MonoBehaviour
         }
     }
 
-    private void ShowQuadTree()
-    {
-        foreach (var item in QuadTreeWorld.Instance.TreePlane.GetComponentsInChildren<MeshRenderer>())
-        {
-            item.material = RandMat();
-        }
-    }
-
     /// <summary>
     /// 创建细分 首先在方法外分割一次 然后开始细分 当边长等于最小边长时 停止细分
     /// </summary>
@@ -77,6 +70,20 @@ public class QuadTreeTest : MonoBehaviour
         {
             tree.subQuadTrees[i].Divid();
             CreateQuadTree(tree.subQuadTrees[i]);
+        }
+    }
+
+    private void AnalysisQuadTree(QuadTree tree)
+    {
+        if (tree == null || tree.subQuadTrees.Count == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < tree.subQuadTrees.Count; i++)
+        {
+            Debug.Log(tree.subQuadTrees.Count);
+            AnalysisQuadTree(tree.subQuadTrees[i]);
         }
     }
 

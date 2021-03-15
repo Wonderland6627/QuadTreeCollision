@@ -304,7 +304,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: ddfb177168fb95d478ff7086198d80b2, type: 2}
   - {fileID: 2100000, guid: 6574e964f574cea4b8592a3b06efaeeb, type: 2}
   - {fileID: 2100000, guid: c7de61a1be7834543add3589eb44fad0, type: 2}
-  pos: {x: 0, y: 0, z: 0}
+  pos: {x: 5.76, y: 0, z: 12.39}
 --- !u!4 &935225057
 Transform:
   m_ObjectHideFlags: 0
